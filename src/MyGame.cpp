@@ -5,9 +5,9 @@ MyGame::MyGame(TTF_Font* font, SDL_Surface* BackgroundImage, SDL_Surface* Meteor
     this->font = font;
     this->BackgroundImage = BackgroundImage;
     this->MeteorImage = MeteorImage;
+    this->TrophyImage = TrophyImage;
     this->Paddle1Image = Paddle1Image;
     this->Paddle2Image = Paddle2Image;
-    this->TrophyImage = TrophyImage;
     this->BallHitPaddle1 = BallHitPaddle1;
     this->BallHitPaddle2 = BallHitPaddle2;
     this->WallHits = WallHits;
@@ -84,12 +84,14 @@ void MyGame::update() {
 void MyGame::render(SDL_Renderer* renderer) {
 
     SDL_Rect bgd = { 0, 0, 800, 600 };
+
+    SDL_Rect trphy2 = { 500, 300, 100, 70 };
+    SDL_Rect trphy = { 300, 300, 100, 70 };
+
+
+
     auto backgroundTexture = SDL_CreateTextureFromSurface(renderer, BackgroundImage);
     SDL_RenderCopy(renderer, backgroundTexture, NULL, &bgd);
-
-
-    SDL_Rect dstplayer1 = { 300, 50, 128, 96 };
-    SDL_Rect dstplayer2 = { 400, 400, 128, 96 };
 
     auto meteorTexture = SDL_CreateTextureFromSurface(renderer, MeteorImage);
     SDL_RenderCopy(renderer, meteorTexture, NULL, &Ball);
@@ -102,25 +104,21 @@ void MyGame::render(SDL_Renderer* renderer) {
     auto paddle2Texture = SDL_CreateTextureFromSurface(renderer, Paddle2Image);
     SDL_RenderCopy(renderer, paddle2Texture, NULL, &player2);
     SDL_RenderPresent(renderer);
-    SDL_Rect trphy = { 300, 300, 100, 70 };
+
     auto trophyTexture = SDL_CreateTextureFromSurface(renderer, TrophyImage);
-    SDL_Rect trphy2 = { 500, 300, 100, 70 };
+
     auto trophyTexture2 = SDL_CreateTextureFromSurface(renderer, TrophyImage);
 
 
-  /* if (playerScore.Player1Score > playerScore.Player2Score) {
-       SDL_RenderCopy(renderer, trophyTexture, NULL, &trphy);
-       if (trophyTexture has rendered once, stop the render) 
-           {
 
-       }
-   }
-   else if (playerScore.Player2Score > playerScore.Player1Score) {
-       SDL_RenderCopy(renderer, trophyTexture2, NULL, &trphy2);
-       if (trophyTexture2 has rendered once, stop the render) {
-           
-       }
-   }*/
+    if (playerScore.Player1Score > playerScore.Player2Score) {
+        SDL_RenderCopy(renderer, trophyTexture, NULL, &trphy);
+
+    }
+    else if (playerScore.Player2Score > playerScore.Player1Score) {
+        SDL_RenderCopy(renderer, trophyTexture2, NULL, &trphy2);
+
+    }
 
     std::string ScoreTextPlayer1 = std::to_string(playerScore.Player1Score);
     std::string ScoreTextPlayer2 = std::to_string(playerScore.Player2Score);
@@ -156,6 +154,8 @@ void MyGame::render(SDL_Renderer* renderer) {
     SDL_FreeSurface(SurfaceText2);
     SDL_DestroyTexture(backgroundTexture);
     SDL_DestroyTexture(meteorTexture);
+    SDL_DestroyTexture(trophyTexture);
+    SDL_DestroyTexture(trophyTexture2);
     SDL_DestroyTexture(paddle1Texture);
     SDL_DestroyTexture(paddle2Texture);
 
