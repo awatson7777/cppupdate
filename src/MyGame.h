@@ -1,9 +1,3 @@
-#ifndef __MY_GAME_H__
-#define __MY_GAME_H__
-
-#include <iostream>
-#include <vector>
-#include <string>
 #include "SDL.h"
 #include "SDL_mixer.h"
 #include "SDL_ttf.h"
@@ -25,29 +19,32 @@ static struct playerScore {
 
 class MyGame {
 
-    private:
-        SDL_Rect player1 = { 0, 0, 20, 60 };
-        SDL_Rect player2 = { 300, 0, 20, 60 };
-        SDL_Rect meteor = { 0, 0, 30, 30 };
-        SDL_Surface* BackgroundImage;
-        SDL_Surface* MeteorImage;
-        Mix_Chunk* BallHitPaddle1;
-        Mix_Chunk* BallHitPaddle2;
-        Mix_Chunk* WallHits;
-        TTF_Font* Font;
+private:
+    SDL_Rect player1 = { 200, 0, 20, 60 };
+    SDL_Rect player2 = { 580, 0, 20, 60 };
+    SDL_Rect meteor = { 0, 0, 30, 30 };
+    SDL_Surface* BackgroundImage;
+    SDL_Surface* MeteorImage;
+    SDL_Surface* TrophyImage;
+    SDL_Surface* Paddle1Image;
+    SDL_Surface* Paddle2Image;
+    Mix_Chunk* BallHitPaddle1;
+    Mix_Chunk* BallHitPaddle2;
+    Mix_Chunk* WallHits;
+    TTF_Font* font;
 
-        SDL_Rect Ball = { 0, 0, 30, 30 };
+    SDL_Rect Ball = { 0, 0, 30, 30 };
 
-    public:
-        std::vector<std::string> messages;
+public:
+    std::vector<std::string> messages;
 
-        void on_receive(std::string message, std::vector<std::string>& args);
-        void send(std::string message);
-        void input(SDL_Event& event);
-        void update();
-        void render(SDL_Renderer* renderer);
+    void on_receive(std::string message, std::vector<std::string>& args);
+    void send(std::string message);
+    void input(SDL_Event& event);
+    void update();
+    void render(SDL_Renderer* renderer);
 
-        MyGame(TTF_Font* Font, SDL_Surface* BackgroundImage, SDL_Surface* MeteorImage, Mix_Chunk* WallHits, Mix_Chunk* BallHitPaddle1, Mix_Chunk* BallHitPaddle2);
+    MyGame(TTF_Font* font, SDL_Surface* BackgroundImage, SDL_Surface* MeteorImage, SDL_Surface* TrophyImage, SDL_Surface* Paddle1Image, SDL_Surface* Paddle2Image, Mix_Music* backgroundmusic, Mix_Chunk* BallHitPaddle1, Mix_Chunk* BallHitPaddle2, Mix_Chunk* WallHits);
 
 };
 
