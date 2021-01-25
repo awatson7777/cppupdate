@@ -87,12 +87,12 @@ void loop(SDL_Renderer* renderer) {
                 game->input(event);
 
                 switch (event.key.keysym.sym) {
-                    case SDLK_ESCAPE:
-                        is_running = false;
-                        break;
+                case SDLK_ESCAPE:
+                    is_running = false;
+                    break;
 
-                    default:
-                        break;
+                default:
+                    break;
                 }
             }
 
@@ -167,7 +167,7 @@ int main(int argc, char** argv) {
     //Initialize TTF
     if (TTF_Init() == -1) {
         printf("TTF_Init: %s\n", TTF_GetError());
-            exit(2);
+        exit(2);
     }
 
     //Load Font
@@ -182,17 +182,27 @@ int main(int argc, char** argv) {
     }
 
     //Load images for show
-    SDL_Surface* BackgroundImage = IMG_Load("ImageFiles/stars.jpg");
-    SDL_Surface* MeteorImage = IMG_Load("ImageFiles/Meteor1.jpg");
-    
-    if (!BackgroundImage || !MeteorImage) {
+    SDL_Surface* BackgroundImage = IMG_Load("Imagefiles/stars.jpg");
+    SDL_Surface* MeteorImage = IMG_Load("Imagefiles/MeteorNoBG.png");
+    SDL_Surface* TrophyImage = IMG_Load("Imagefiles/TrophyImage.png");
+    SDL_Surface* Paddle1Image = IMG_Load("Imagefiles/Spaceship.png");
+    SDL_Surface* Paddle2Image = IMG_Load("Imagefiles/Spaceship2.png");
+
+    if (!BackgroundImage || !MeteorImage || !TrophyImage || !Paddle1Image || !Paddle2Image) {
         printf("IMG_Load: %s\n", IMG_GetError());
     }
-    
+
     if (MeteorImage == nullptr) {
         std::cout << "Hmm, you aren't a meteorologist are you? Meteor not loaded!" << std::endl;
     }
 
+    if (Paddle1Image == nullptr) {
+        std::cout << "Houston we have a problem, Spaceship1 not loaded" << std::endl;
+    }
+
+    if (Paddle2Image == nullptr) {
+        std::cout << "Houston we have a problem, Spaceship2 not loaded" << std::endl;
+    }
 
     //AUDIO
 
@@ -213,16 +223,14 @@ int main(int argc, char** argv) {
 
     Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
     Mix_Music* backgroundmusic = Mix_LoadMUS("Sounds/madescore.mp3");
-    /*Mix_Chunk* BallHitPaddle1 = Mix_LoadWAV("Sounds/Player1Hit.wav");
+    Mix_Chunk* BallHitPaddle1 = Mix_LoadWAV("Sounds/Player1Hit.wav");
     Mix_Chunk* BallHitPaddle2 = Mix_LoadWAV("Sounds/Player2Hit.wav");
     Mix_Chunk* WallHits = Mix_LoadWAV("Sounds/WallHit.wav");
-    /*if (Mix_FadeInChannel(-1, WallHits, 2, 1000) == -1) {
-        printf("Mix_FadeInChannel: %s\n", Mix_GetError());
-    };*/
+
     Mix_PlayMusic(backgroundmusic, -1);
     Mix_VolumeMusic(60);
 
-    if (!backgroundmusic) {
+    if (!backgroundmusic || !BallHitPaddle1 || !BallHitPaddle2 || !WallHits) {
         std::cout << "Music not loaded" << std::endl;
     }
 
@@ -246,6 +254,8 @@ int main(int argc, char** argv) {
 
     }
 
+    game = new MyGame(font, BackgroundImage, MeteorImage, TrophyImage, Paddle1Image, Paddle2Image, backgroundmusic, BallHitPaddle1, BallHitPaddle2, WallHits);
+
     SDL_CreateThread(on_receive, "ConnectionReceiveThread", (void*)socket);
     SDL_CreateThread(on_send, "ConnectionSendThread", (void*)socket);
 
@@ -257,10 +267,13 @@ int main(int argc, char** argv) {
     TTF_Quit();
     SDL_FreeSurface(MeteorImage);
     SDL_FreeSurface(BackgroundImage);
+    SDL_FreeSurface(TrophyImage);
+    SDL_FreeSurface(Paddle1Image);
+    SDL_FreeSurface(Paddle2Image);
     Mix_FreeMusic(backgroundmusic);
-   // Mix_FreeChunk(BallHitPaddle1);
-   // Mix_FreeChunk(BallHitPaddle2);
-   // Mix_FreeChunk(WallHits);
+    Mix_FreeChunk(BallHitPaddle1);
+    Mix_FreeChunk(BallHitPaddle2);
+    Mix_FreeChunk(WallHits);
     IMG_Quit();
 
     // Close connection to the server
