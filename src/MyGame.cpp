@@ -88,7 +88,7 @@ void MyGame::render(SDL_Renderer* renderer) {
     SDL_Rect trphy2 = { 500, 300, 100, 70 };
     SDL_Rect trphy = { 300, 300, 100, 70 };
 
-
+    //Render the images and text using renderer
 
     auto backgroundTexture = SDL_CreateTextureFromSurface(renderer, BackgroundImage);
     SDL_RenderCopy(renderer, backgroundTexture, NULL, &bgd);
@@ -100,6 +100,7 @@ void MyGame::render(SDL_Renderer* renderer) {
     auto paddle1Texture = SDL_CreateTextureFromSurface(renderer, Paddle1Image);
     SDL_RenderCopy(renderer, paddle1Texture, NULL, &player1);
     SDL_RenderPresent(renderer);
+
 
     auto paddle2Texture = SDL_CreateTextureFromSurface(renderer, Paddle2Image);
     SDL_RenderCopy(renderer, paddle2Texture, NULL, &player2);
@@ -158,5 +159,7 @@ void MyGame::render(SDL_Renderer* renderer) {
     SDL_DestroyTexture(trophyTexture2);
     SDL_DestroyTexture(paddle1Texture);
     SDL_DestroyTexture(paddle2Texture);
+
+    
 
 }
