@@ -1,0 +1,10 @@
+^C:\USERS\AWATS\DOCUMENTS\CI628\BUILD\CMAKEFILES\861F5C61293D1A6B1EC536291DC7D606\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/awats/Documents/CI628 -BC:/Users/awats/Documents/CI628/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/awats/Documents/CI628/build/MyGame.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
