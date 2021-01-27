@@ -263,6 +263,8 @@ int main(int argc, char** argv) {
 
     delete game;
 
+    //Free textures and delete assets on quit
+
     TTF_CloseFont(font);
     TTF_Quit();
     SDL_FreeSurface(MeteorImage);
